@@ -15,22 +15,21 @@
     <p>Updated live from financial sources</p>
     <p id="net-worth">Loading...</p>
     <script>
-        async function fetchNetWorth() {
-            try {
-                const response = await fetch("https://forbes400.onrender.com/api/forbes400/leaderboard");
-                const data = await response.json();
-                const musk = data.find(person => person.personName === "Elon Musk");
-                if (musk) {
-                    document.getElementById("net-worth").innerText = `$${musk.finalWorth} Billion`;
-                } else {
-                    document.getElementById("net-worth").innerText = "Data not available";
-                }
-            } catch (error) {
-                document.getElementById("net-worth").innerText = "Error fetching data";
-            }
+    async function fetchNetWorth() {
+    try {
+        const response = await fetch("https://api.coinpaprika.com/v1/people/elon-musk"); // Alternative API
+        const data = await response.json();
+        if (data && data.name === "Elon Musk") {
+            document.getElementById("net-worth").innerText = `$${data.net_worth} Billion (estimated)`;
+        } else {
+            document.getElementById("net-worth").innerText = "Data not available";
         }
-        fetchNetWorth();
-        setInterval(fetchNetWorth, 60000); // Refresh every 60 seconds
+    } catch (error) {
+        document.getElementById("net-worth").innerText = "Error fetching data";
+    }
+}
+fetchNetWorth();
+setInterval(fetchNetWorth, 60000);
     </script>
 </body>
 </html>
