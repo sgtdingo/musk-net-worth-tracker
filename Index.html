@@ -1,1 +1,36 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musk Net Worth Tracker</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background-color: #111; color: #fff; }
+        h1 { font-size: 2em; }
+        #net-worth { font-size: 3em; color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Elon Musk's Net Worth</h1>
+    <p>Updated live from financial sources</p>
+    <p id="net-worth">Loading...</p>
+    <script>
+        async function fetchNetWorth() {
+            try {
+                const response = await fetch("https://forbes400.onrender.com/api/forbes400/leaderboard");
+                const data = await response.json();
+                const musk = data.find(person => person.personName === "Elon Musk");
+                if (musk) {
+                    document.getElementById("net-worth").innerText = `$${musk.finalWorth} Billion`;
+                } else {
+                    document.getElementById("net-worth").innerText = "Data not available";
+                }
+            } catch (error) {
+                document.getElementById("net-worth").innerText = "Error fetching data";
+            }
+        }
+        fetchNetWorth();
+        setInterval(fetchNetWorth, 60000); // Refresh every 60 seconds
+    </script>
+</body>
+</html>
